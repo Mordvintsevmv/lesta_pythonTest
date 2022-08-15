@@ -18,13 +18,13 @@ if __name__ == '__main__':
     print("\nПроверка скорости \n")
 
     tic_start = time.time()
-    myEven(123456789)
+    myEven(1234567890)
     tic_end = time.time()
 
     print("Моя функция чётности: " + str(tic_end - tic_start))
 
     tic_start = time.time()
-    isEven(123456789)
+    isEven(1234567890)
     tic_end = time.time()
 
     print("Не моя функция чётности: " + str(tic_end - tic_start))
