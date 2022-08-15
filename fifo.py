@@ -9,6 +9,15 @@ class FIFO1(object):
         self.cursize = 0
         self.my_queue = [None] * size
 
+    def __str__(self):
+        i = self.head
+        string = "["
+        for j in range(self.cursize-1):
+            string = string + str(self.my_queue[i]) + ", "
+            i = (i + 1) % self.size
+        string = string + str(self.my_queue[i]) + "]"
+        return string
+
     def push(self, data):
         if self.isFull():
             print("Больше нет места")
@@ -46,44 +55,75 @@ class FIFO1(object):
         return self.cursize
 
     def clear(self):
-        self.tail = -1
+
+        i = self.head
+        for j in range(self.length()):
+            self.my_queue[i] = None
+            i = (i + 1) % self.size
+
+        self.tail = 5
         self.head = 0
+        self.cursize = 0
+
 
 class FIFO2(object):
 
-    def __init__(self, *args):
-        self.my_queue = []
-        for data in args:
-            self.my_queue.append(data)
+    def __init__(self, size=5):
+        self.size = size
+        self.tail = 0
+        self.head = 0
+        self.my_queue = [None] * size
+
+    def __str__(self):
+        i = self.head
+        string = "["
+        for j in range(self.length()-1):
+            string = string + str(self.my_queue[i]) + ", "
+            i = (i + 1) % self.size
+        string = string + str(self.my_queue[i]) + "]"
+        return string
 
     def push(self, data):
-        self.my_queue.append(data)
+        if self.my_queue[self.tail] is not None:
+            print("Больше нет места")
+        else:
+            self.my_queue[self.tail] = data
+            self.tail = (self.tail + 1) % self.size
 
     def pop(self):
-        if self.my_queue:
-            data = self.my_queue[0]
-            for i in range(len(self.my_queue) - 1):
-                self.my_queue[i] = self.my_queue[i + 1]
-
-            del self.my_queue[len(self.my_queue) - 1]
+        if self.head is None:
+            print("Очередь пуста!")
+        else:
+            data = self.my_queue[self.head]
+            self.my_queue[self.head] = None
+            self.head = (self.head + 1) % self.size
             return data
 
-        else:
-            return None
-
-    def isEmpty(self):
-        return self.my_queue == []
-
-
     def printQueue(self):
-        for data in self.my_queue:
-            print (str(data) + " "),
+        i = self.head
+        for j in range(self.length()):
+            print(str(self.my_queue[i]) + " "),
+            i = (i + 1) % self.size
         print
 
     def length(self):
-        return len(self.my_queue)
+        if self.tail > self.head:
+            return self.tail-self.head
+        elif self.tail < self.head:
+            return self.size - self.head + self.tail
+        elif self.my_queue[self.tail] is not None:
+            return self.size
+        else:
+            return 0
 
     def clear(self):
-        for i in range(len(self.my_queue) - 1):
-            del self.my_queue[i]
+
+        i = self.head
+        for j in range(self.length()):
+            self.my_queue[i] = None
+            i = (i + 1) % self.size
+
+        self.tail = 0
+        self.head = 0
+
 
