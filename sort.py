@@ -1,6 +1,5 @@
 import random
 
-
 def quicksort(arr):
     if len(arr) > 1:
         num = random.choice(arr)
